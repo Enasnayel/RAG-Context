@@ -1,16 +1,16 @@
 {
   "cell": "toon_fixed_256",
-  "commit": "15cf969",
+  "commit": "2c6a976",
   "corpus": "hotpotqa",
   "n_docs": 498,
   "n_questions": 50,
   "n_chunks": 525,
-  "recall_at_5": 0.85,
+  "recall_at_5": 0.87,
   "mrr": 0.9633,
   "faith_gpt": 0.82,
   "faith_claude": 0.955,
   "ctx_tokens_per_query": 932.3,
-  "indexing_tokens": 103593,
+  "indexing_tokens": 101728,
   "contextualization_overhead_pct": null,
-  "token_saving_vs_baseline_pct": 1.4
+  "token_saving_vs_baseline_pct": 1.5
 }

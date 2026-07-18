@@ -1,16 +1,16 @@
 {
   "cell": "json_fixed_256",
-  "commit": "15cf969",
+  "commit": "2c6a976",
   "corpus": "hotpotqa",
   "n_docs": 498,
   "n_questions": 50,
   "n_chunks": 525,
-  "recall_at_5": 0.83,
+  "recall_at_5": 0.88,
   "mrr": 0.9733,
   "faith_gpt": 0.81,
   "faith_claude": 0.92,
   "ctx_tokens_per_query": 960.0,
-  "indexing_tokens": 105105,
-  "contextualization_overhead_pct": 38.0,
+  "indexing_tokens": 103276,
+  "contextualization_overhead_pct": 35.2,
   "token_saving_vs_baseline_pct": null
 }
