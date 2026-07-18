@@ -1,6 +1,6 @@
 {
   "cell": "toon_fixed_256",
-  "commit": "2c6a976",
+  "commit": "9f39d9b",
   "corpus": "hotpotqa",
   "n_docs": 498,
   "n_questions": 50,
