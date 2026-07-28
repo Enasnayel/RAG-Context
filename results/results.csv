@@ -1,0 +1,7 @@
+run_id,commit,corpus,format,chunking,chunk_size,generator,n_docs,n_chunks,n_questions,recall_at_5,mrr,ndcg_at_5,faithfulness,indexing_tokens,ctx_tokens_per_query,latency_s_mean,token_saving_vs_baseline_pct,contextualization_overhead_pct,cost_usd
+hotpotqa_json_fixed_256_gpt,a0d6e14,hotpotqa,json,fixed,256,gpt,498,523,50,0.88,0.9733,0.8595,0.825,101452,927.9,1.19,,35.37,0.1003
+hotpotqa_json_fixed_256_claude,a0d6e14,hotpotqa,json,fixed,256,claude,498,523,50,0.88,0.9733,0.8595,0.94,101452,927.9,1.87,,35.37,0.1003
+hotpotqa_toon_fixed_256_gpt,a0d6e14,hotpotqa,toon,fixed,256,gpt,498,523,50,0.88,0.9767,0.8541,0.765,102444,871.9,1.13,-0.98,35.37,0.0959
+hotpotqa_toon_fixed_256_claude,a0d6e14,hotpotqa,toon,fixed,256,claude,498,523,50,0.88,0.9767,0.8541,0.8634,102444,871.9,1.81,-0.98,35.37,0.0959
+hotpotqa_yaml_fixed_256_gpt,a0d6e14,hotpotqa,yaml,fixed,256,gpt,498,523,50,0.87,0.9733,0.8491,0.785,100304,936.8,1.22,1.13,35.37,0.10075
+hotpotqa_yaml_fixed_256_claude,a0d6e14,hotpotqa,yaml,fixed,256,claude,498,523,50,0.87,0.9733,0.8491,0.9234,100304,936.8,1.61,1.13,35.37,0.10075
