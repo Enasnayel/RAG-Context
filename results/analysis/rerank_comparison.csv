@@ -1,0 +1,4 @@
+format,recall_at_5_base,recall_at_5_rerank,recall_at_5_delta,mrr_base,mrr_rerank,mrr_delta,ndcg_at_5_base,ndcg_at_5_rerank,ndcg_at_5_delta,faithfulness_base,faithfulness_rerank,faithfulness_delta
+json,0.88,0.97,0.09,0.9733,0.9633,-0.01,0.8595,0.9326,0.0731,0.8825,0.905,0.0225
+toon,0.88,0.97,0.09,0.9767,0.9633,-0.0134,0.8541,0.9326,0.0785,0.8142,0.8613,0.0471
+yaml,0.87,0.97,0.1,0.9733,0.9633,-0.01,0.8491,0.9326,0.0835,0.8542,0.8912,0.037
