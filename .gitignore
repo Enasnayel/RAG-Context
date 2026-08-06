@@ -11,6 +11,9 @@ requirements-lock.txt
 # Scratch logs from ad hoc re-runs
 run_output*.txt
 
+# Generated exports, not source
+RAG_full.html
+
 # Migration working copies - not deliverables
 RAG_migrated_backup.ipynb
 RAG_101cell_asfound.ipynb
