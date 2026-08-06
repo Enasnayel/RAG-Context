@@ -1,0 +1,2 @@
+pearson_r,mean_abs_diff,pct_faithfulness_ge_ragas,verdict
+0.7881,0.0341,70.83,"distinct constructs, not a duplicate"

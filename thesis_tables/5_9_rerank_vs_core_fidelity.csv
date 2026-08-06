@@ -1,0 +1,4 @@
+format,ragas_faithfulness_reranked,ragas_faithfulness_base,delta
+json,0.8974,0.8481,0.0493
+toon,0.8886,0.8344,0.0542
+yaml,0.901,0.8294,0.0716

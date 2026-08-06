@@ -1,0 +1,6 @@
+,late_chunking,matched_core,delta
+recall_at_5,0.9183,0.9519,-0.0336
+mrr,0.8428,0.8836,-0.0408
+ndcg_at_5,0.8366,0.8746,-0.038
+ctx_tokens_per_query,1238.5,1234.6167,3.8833
+ragas_faithfulness,0.902,0.8966,0.0054

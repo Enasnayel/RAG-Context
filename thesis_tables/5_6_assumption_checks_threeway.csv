@@ -1,0 +1,9 @@
+metric,n,shapiro_W,shapiro_p,levene_stat,levene_p,normality_ok,homogeneity_ok,parametric_anova_justified
+ragas_faithfulness,144,0.9775,0.01784565774351634,12.1462,4.739944392849794e-24,False,False,False
+ragas_answer_relevance,144,0.9316,1.9935719244369738e-06,4.6629,3.708571981029406e-10,False,False,False
+factscore,144,0.9848,0.11303939595966078,4.3986,1.658742825158539e-09,True,False,False
+selfcheck_consistency,144,0.9631,0.000645751554877455,1.6414,0.02791872232700263,False,False,False
+recall_at_5,72,0.8732,3.0083088039922634e-06,3.1896934820392596e+29,0.0,False,False,False
+mrr,72,0.9623,0.02965921614760314,2.43268379781033e+28,0.0,False,False,False
+ndcg_at_5,72,0.9537,0.009881525957379296,2.8425777742937233e+28,0.0,False,False,False
+ctx_tokens_per_query,72,0.9105,8.24900530396802e-05,8.74989815933828e+30,0.0,False,False,False

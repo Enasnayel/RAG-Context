@@ -1,0 +1,5 @@
+corpus,n_docs,n_chunks_mean,n_chunks_min,n_chunks_max,n_questions
+bpolicy,36,1746.0,851,2612,50
+financebench,41,94.0,60,133,50
+hotpotqa,498,640.0,500,899,50
+msmarco,500,598.0,500,795,50

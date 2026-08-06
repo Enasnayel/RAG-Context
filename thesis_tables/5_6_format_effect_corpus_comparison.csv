@@ -1,0 +1,9 @@
+metric,n_corpora_format_significant,top_format_per_corpus,direction_consistent_across_corpora
+ctx_tokens_per_query,2/4,"bpolicy=json, financebench=json, hotpotqa=yaml, msmarco=yaml",False
+factscore,1/4,"bpolicy=json, financebench=yaml, hotpotqa=json, msmarco=json",False
+mrr,3/4,"bpolicy=yaml, financebench=yaml, hotpotqa=toon, msmarco=toon",False
+ndcg_at_5,2/4,"bpolicy=yaml, financebench=yaml, hotpotqa=toon, msmarco=toon",False
+ragas_answer_relevance,0/4,"bpolicy=toon, financebench=toon, hotpotqa=toon, msmarco=toon",True
+ragas_faithfulness,1/4,"bpolicy=yaml, financebench=yaml, hotpotqa=json, msmarco=json",False
+recall_at_5,1/4,"bpolicy=json, financebench=json, hotpotqa=toon, msmarco=yaml",False
+selfcheck_consistency,0/4,"bpolicy=json, financebench=json, hotpotqa=toon, msmarco=yaml",False

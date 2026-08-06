@@ -1,0 +1,4 @@
+format,n,claude-haiku-4-5-20251001_judge_mean,gpt-4o-mini_judge_mean,gap
+json,86,0.8942,0.9424,-0.0482
+toon,57,0.893,0.9254,-0.0324
+yaml,71,0.8841,0.9542,-0.0701

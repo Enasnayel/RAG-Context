@@ -1,0 +1,9 @@
+metric,bpolicy,financebench,hotpotqa,msmarco
+ragas_faithfulness,yaml (ns),yaml (*),json (ns),json (ns)
+ragas_answer_relevance,toon (ns),toon (ns),toon (ns),toon (ns)
+factscore,json (ns),yaml (*),json (ns),json (ns)
+selfcheck_consistency,json (ns),json (ns),toon (ns),yaml (ns)
+recall_at_5,json (ns),json (ns),toon (**),yaml (ns)
+mrr,yaml (ns),yaml (*),toon (**),toon (***)
+ndcg_at_5,yaml (ns),yaml (ns),toon (***),toon (***)
+ctx_tokens_per_query,json (ns),json (ns),yaml (***),yaml (***)

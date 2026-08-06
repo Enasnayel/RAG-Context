@@ -1,0 +1,4 @@
+chunking,mean_indexing_tokens,mean_ctx_tokens_per_query
+fixed,198658.0,1523.1
+recursive,208571.0,1357.8
+semantic,228005.0,1183.8

@@ -1,0 +1,6 @@
+,ragas_faithfulness,ragas_faithfulness,ragas_answer_relevance,ragas_answer_relevance,factscore,factscore,selfcheck_consistency,selfcheck_consistency
+,mean,std,mean,std,mean,std,mean,std
+chunking,,,,,,,,
+fixed,0.8961,0.0568,0.8826,0.016,0.9087,0.0496,0.9712,0.0122
+recursive,0.9008,0.0637,0.8821,0.0158,0.9154,0.0495,0.9712,0.0136
+semantic,0.8936,0.0621,0.8827,0.0163,0.9129,0.0519,0.9692,0.0106

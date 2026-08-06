@@ -1,0 +1,3 @@
+generator,n,claude-haiku-4-5-20251001_judge_mean,gpt-4o-mini_judge_mean,gap
+claude,121,0.9254,0.9653,-0.0399
+gpt,93,0.8452,0.9113,-0.0661

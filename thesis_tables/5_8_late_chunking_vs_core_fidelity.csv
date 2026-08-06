@@ -1,0 +1,13 @@
+corpus,format,ragas_faithfulness_late,ragas_faithfulness_core,delta
+bpolicy,json,0.9335,0.9471,-0.0136
+bpolicy,toon,0.9086,0.9398,-0.0312
+bpolicy,yaml,0.929,0.9585,-0.0295
+financebench,json,0.8678,0.8582,0.0096
+financebench,toon,0.8884,0.8319,0.0565
+financebench,yaml,0.8946,0.8838,0.0108
+hotpotqa,json,0.8703,0.8481,0.0222
+hotpotqa,toon,0.8453,0.8344,0.0109
+hotpotqa,yaml,0.8636,0.8294,0.0342
+msmarco,json,0.9354,0.9504,-0.015
+msmarco,toon,0.9386,0.9328,0.0058
+msmarco,yaml,0.9488,0.945,0.0038

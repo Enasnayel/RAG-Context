@@ -1,0 +1,5 @@
+corpus,json,toon,yaml
+bpolicy,0.9713,0.9674,0.973
+financebench,0.9126,0.9035,0.9256
+hotpotqa,0.829,0.833,0.8238
+msmarco,0.712,0.7589,0.755

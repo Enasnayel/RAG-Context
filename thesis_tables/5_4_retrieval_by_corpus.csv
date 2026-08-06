@@ -1,0 +1,7 @@
+,recall_at_5,recall_at_5,mrr,mrr,ndcg_at_5,ndcg_at_5
+,mean,std,mean,std,mean,std
+corpus,,,,,,
+bpolicy,0.9789,0.0047,0.9677,0.0137,0.9705,0.0108
+financebench,0.9856,0.0165,0.8893,0.0194,0.9139,0.0159
+hotpotqa,0.8428,0.044,0.9692,0.0074,0.8286,0.0348
+msmarco,0.9483,0.0309,0.6861,0.0326,0.742,0.03

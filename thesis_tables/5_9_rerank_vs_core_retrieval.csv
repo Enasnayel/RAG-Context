@@ -1,0 +1,4 @@
+format,recall_at_5_reranked,mrr_reranked,ndcg_at_5_reranked,ctx_tokens_per_query_reranked,recall_at_5_base,mrr_base,ndcg_at_5_base,ctx_tokens_per_query_base,recall_at_5_delta,mrr_delta,ndcg_at_5_delta
+json,0.97,0.9633,0.9326,917.3,0.88,0.9733,0.8595,927.9,0.09,-0.01,0.0731
+toon,0.97,0.9633,0.9326,872.2,0.88,0.9767,0.8541,871.9,0.09,-0.0134,0.0785
+yaml,0.97,0.9633,0.9326,932.4,0.87,0.9733,0.8491,936.8,0.1,-0.01,0.0835

@@ -1,0 +1,4 @@
+format,mean_ctx_tokens_per_query,pct_vs_json_baseline
+json,1394.1,0.0
+toon,1314.5,5.71
+yaml,1356.0,2.73

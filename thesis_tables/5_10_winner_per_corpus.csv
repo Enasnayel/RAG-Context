@@ -1,0 +1,5 @@
+corpus,format,chunking,chunk_size,composite_score
+bpolicy,json,recursive,256,0.852
+financebench,json,recursive,256,0.7088
+hotpotqa,toon,semantic,512,0.6212
+msmarco,toon,semantic,256,0.6653

@@ -1,0 +1,5 @@
+cell_type,n_rows
+core,144
+S_chunk_size,48
+L_late_chunking,24
+R_rerank,6

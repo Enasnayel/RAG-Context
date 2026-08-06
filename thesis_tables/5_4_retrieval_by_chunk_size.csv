@@ -1,0 +1,5 @@
+,recall_at_5,recall_at_5,mrr,mrr,ndcg_at_5,ndcg_at_5
+,mean,std,mean,std,mean,std
+chunk_size,,,,,,
+256,0.9377,0.0621,0.8787,0.1177,0.8641,0.0887
+512,0.9401,0.0666,0.8775,0.1199,0.8634,0.0936

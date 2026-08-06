@@ -1,0 +1,5 @@
+,ragas_faithfulness,ragas_faithfulness,ragas_answer_relevance,ragas_answer_relevance,factscore,factscore,selfcheck_consistency,selfcheck_consistency
+,mean,std,mean,std,mean,std,mean,std
+generator,,,,,,,,
+claude,0.9253,0.0355,0.8751,0.0154,0.9372,0.0276,0.9657,0.0113
+gpt,0.8683,0.067,0.8898,0.0128,0.8874,0.055,0.9753,0.0111

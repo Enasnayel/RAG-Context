@@ -1,0 +1,6 @@
+,recall_at_5,recall_at_5,mrr,mrr,ndcg_at_5,ndcg_at_5
+,mean,std,mean,std,mean,std
+format,,,,,,
+json,0.9367,0.0667,0.869,0.1343,0.8562,0.1024
+toon,0.9408,0.0606,0.8792,0.11,0.8657,0.082
+yaml,0.9392,0.0669,0.886,0.1126,0.8694,0.0893

@@ -1,0 +1,5 @@
+corpus,mean,std,min,max
+bpolicy,18.77,6.32,9.33,27.97
+financebench,24.55,6.81,15.74,34.98
+hotpotqa,44.56,15.15,32.96,65.67
+msmarco,70.29,17.29,58.13,94.2

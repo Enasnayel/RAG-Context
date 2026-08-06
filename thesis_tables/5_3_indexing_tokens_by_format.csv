@@ -1,0 +1,4 @@
+format,mean_indexing_tokens,pct_vs_json_baseline
+json,211407.0,0.0
+toon,213274.0,-0.88
+yaml,210554.0,0.4

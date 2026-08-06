@@ -1,0 +1,6 @@
+,recall_at_5,recall_at_5,mrr,mrr,ndcg_at_5,ndcg_at_5
+,mean,std,mean,std,mean,std
+chunking,,,,,,
+fixed,0.9535,0.0473,0.8819,0.1155,0.8734,0.0827
+recursive,0.9479,0.0478,0.8833,0.1185,0.8724,0.0872
+semantic,0.9153,0.0849,0.8691,0.1244,0.8455,0.1017

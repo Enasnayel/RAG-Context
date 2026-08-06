@@ -1,0 +1,5 @@
+cell_type,bpolicy,financebench,hotpotqa,msmarco
+L_late_chunking,6,6,6,6
+R_rerank,0,0,6,0
+S_chunk_size,6,6,18,18
+core,36,36,36,36
