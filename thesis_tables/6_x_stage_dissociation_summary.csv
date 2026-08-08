@@ -1,3 +1,15 @@
-,recall_at_5__range,recall_at_5__eta_sq,mrr__range,mrr__eta_sq,ndcg_at_5__range,ndcg_at_5__eta_sq,ragas_faithfulness__range,ragas_faithfulness__eta_sq,ragas_answer_relevance__range,ragas_answer_relevance__eta_sq,factscore__range,factscore__eta_sq,selfcheck_consistency__range,selfcheck_consistency__eta_sq
-format,0.9367 to 0.9408,0.0008,0.8690 to 0.8860,0.0036,0.8562 to 0.8693,0.0039,0.8898 to 0.9005,0.0068,0.8815 to 0.8834,0.0022,0.9053 to 0.9196,0.0137,0.9704 to 0.9706,0.0001
-chunking,0.9153 to 0.9535,0.0706,0.8691 to 0.8833,0.003,0.8455 to 0.8733,0.0207,0.8936 to 0.9008,0.0024,0.8821 to 0.8827,0.0003,0.9087 to 0.9154,0.0031,0.9692 to 0.9712,0.0058
+metric,stat,format,chunking
+recall_at_5,range,0.9367 to 0.9408,0.9153 to 0.9535
+recall_at_5,eta_sq,0.0008,0.0706
+mrr,range,0.8690 to 0.8860,0.8691 to 0.8833
+mrr,eta_sq,0.0036,0.003
+ndcg_at_5,range,0.8562 to 0.8693,0.8455 to 0.8733
+ndcg_at_5,eta_sq,0.0039,0.0207
+ragas_faithfulness,range,0.8898 to 0.9005,0.8936 to 0.9008
+ragas_faithfulness,eta_sq,0.0068,0.0024
+ragas_answer_relevance,range,0.8815 to 0.8834,0.8821 to 0.8827
+ragas_answer_relevance,eta_sq,0.0022,0.0003
+factscore,range,0.9053 to 0.9196,0.9087 to 0.9154
+factscore,eta_sq,0.0137,0.0031
+selfcheck_consistency,range,0.9704 to 0.9706,0.9692 to 0.9712
+selfcheck_consistency,eta_sq,0.0001,0.0058
