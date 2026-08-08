@@ -6,8 +6,6 @@ __pycache__/
 data/
 .ipynb_checkpoints/
 
-requirements-lock.txt
-
 # Scratch logs from ad hoc re-runs
 run_output*.txt
 

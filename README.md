@@ -67,10 +67,9 @@ tiktoken==0.13.0
 torch==2.13.0
 ```
 
-`requirements-lock.txt` predates the analysis/figures code (it is missing
-matplotlib, statsmodels, and patsy) and should be regenerated with
-`pip freeze > requirements-lock.txt` from the project `.venv` before relying
-on it for a fresh install.
+`requirements-lock.txt` (committed alongside this README) is the output of
+`pip freeze` from the project `.venv` and matches the versions above,
+including matplotlib, statsmodels, and patsy.
 
 The embedding model (`jinaai/jina-embeddings-v2-base-en`) and reranker
 (`BAAI/bge-reranker-base`) are loaded via `sentence-transformers`. If they
