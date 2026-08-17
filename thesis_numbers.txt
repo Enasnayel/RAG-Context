@@ -1680,34 +1680,34 @@ Pooled ranking of all format x chunking x chunk_size configurations (primary
 weights: quality=0.50, cost=0.35, latency=0.15)
 ------------------------------------------------------------------------------
    format   chunking  chunk_size  composite_score  quality    cost  latency
-1    toon   semantic         256           0.6798   0.5433  0.9662   0.4667
-2    toon   semantic         512           0.6472   0.5201  0.8781   0.5318
-3    yaml   semantic         256           0.6351   0.5574  0.8277   0.4448
-4    json   semantic         256           0.6327   0.5587  0.8208   0.4405
-5    yaml   semantic         512           0.6319   0.5719  0.7554   0.5442
-6    json   semantic         512           0.6065   0.5572  0.7347   0.4714
-7    toon  recursive         256           0.5826   0.5938  0.6222   0.4528
-8    json  recursive         256           0.5798   0.6494  0.5069   0.5183
-9    toon  recursive         512           0.5790   0.6512  0.5185   0.4797
-10   toon      fixed         256           0.5775   0.5872  0.6055   0.4797
-11   json      fixed         256           0.5586   0.6411  0.4861   0.4532
-12   yaml      fixed         256           0.5554   0.6458  0.4530   0.4927
-13   yaml  recursive         256           0.5398   0.6105  0.4804   0.4425
-14   toon      fixed         512           0.5366   0.6184  0.4755   0.4067
-15   yaml  recursive         512           0.5359   0.6671  0.3795   0.4637
-16   json  recursive         512           0.5312   0.6487  0.3992   0.4475
-17   json      fixed         512           0.5299   0.6643  0.3600   0.4782
-18   yaml      fixed         512           0.5090   0.6349  0.3380   0.4880
+1    toon   semantic         256           0.6865   0.5567  0.9662   0.4667
+2    toon   semantic         512           0.6492   0.5242  0.8781   0.5318
+3    yaml   semantic         256           0.6422   0.5715  0.8277   0.4448
+4    yaml   semantic         512           0.6331   0.5743  0.7554   0.5442
+5    json   semantic         256           0.6260   0.5452  0.8208   0.4405
+6    json   semantic         512           0.5969   0.5381  0.7347   0.4714
+7    toon  recursive         256           0.5918   0.6122  0.6222   0.4528
+8    toon      fixed         256           0.5911   0.6145  0.6055   0.4797
+9    toon  recursive         512           0.5857   0.6646  0.5185   0.4797
+10   json  recursive         256           0.5810   0.6517  0.5069   0.5183
+11   json      fixed         256           0.5605   0.6448  0.4861   0.4532
+12   yaml      fixed         256           0.5589   0.6528  0.4530   0.4927
+13   toon      fixed         512           0.5424   0.6299  0.4755   0.4067
+14   yaml  recursive         256           0.5423   0.6156  0.4804   0.4425
+15   yaml  recursive         512           0.5375   0.6703  0.3795   0.4637
+16   json      fixed         512           0.5297   0.6639  0.3600   0.4782
+17   json  recursive         512           0.5288   0.6438  0.3992   0.4475
+18   yaml      fixed         512           0.5141   0.6452  0.3380   0.4880
 
-Pooled winner: toon x semantic @ 256 tokens  (composite=0.6798)
+Pooled winner: toon x semantic @ 256 tokens  (composite=0.6865)
 
 ------------------------------------------------------------------------------
 Winner per corpus (full configuration)
 ------------------------------------------------------------------------------
       corpus format  chunking  chunk_size  composite_score
-     bpolicy   json recursive         256           0.8520
-financebench   json recursive         256           0.7088
-    hotpotqa   toon  semantic         512           0.6212
+     bpolicy   json recursive         256           0.8662
+financebench   json recursive         256           0.7079
+    hotpotqa   toon  semantic         512           0.6166
      msmarco   toon  semantic         256           0.6653
 
 Does the pooled winner ('toon', 'semantic', 256) match ANY per-corpus winner?
@@ -1717,10 +1717,10 @@ YES, matches at least one corpus
 Composite score under alternative weightings (weight sensitivity)
 ------------------------------------------------------------------------------
                      weighting format chunking  chunk_size  score
-      primary (0.50/0.35/0.15)   toon semantic         256 0.6798
-quality-first (0.70/0.20/0.10)   toon semantic         256 0.6202
-   cost-first (0.30/0.60/0.10)   toon semantic         256 0.7894
-     balanced (0.34/0.33/0.33)   toon semantic         256 0.6576
+      primary (0.50/0.35/0.15)   toon semantic         256 0.6865
+quality-first (0.70/0.20/0.10)   toon semantic         256 0.6296
+   cost-first (0.30/0.60/0.10)   toon semantic         256 0.7934
+     balanced (0.34/0.33/0.33)   toon semantic         256 0.6621
 
 Ranking stability across all 4 weighting schemes: STABLE - same winner under
 every weighting
@@ -1728,48 +1728,44 @@ every weighting
 ==============================================================================
 5.11 CROSS-JUDGE BIAS
 ==============================================================================
-Primary (frozen) judge: claude-haiku-4-5-20251001  (11100 scores)
-Cross-judge:            gpt-4o-mini  (214 scores)
+cache/judgments.jsonl and/or cache/answers.jsonl not found - cross-judge bias check skipped. Re-run cross_judge_check() in the notebook to regenerate cache/judgments.jsonl before rerunning this script.
+['generator', 'n', 'claude-haiku-4-5-20251001_judge_mean', 'gpt-4o-mini_judge_mean', 'gap']
+  generator    n  claude-haiku-4-5-20251001_judge_mean  \
+0    claude  121                                0.9254   
+1       gpt   93                                0.8452   
 
-------------------------------------------------------------------------------
-Score difference by judge provider, broken down by answer generator
-------------------------------------------------------------------------------
-generator   n  claude-haiku-4-5-20251001_judge_mean  gpt-4o-mini_judge_mean  \
-   claude 121                                0.9254                  0.9653   
-      gpt  93                                0.8452                  0.9113   
+   gpt-4o-mini_judge_mean     gap  
+0                  0.9653 -0.0399  
+1                  0.9113 -0.0661  
+==============================================================================
+5.11 CROSS-JUDGE BIAS
+==============================================================================
+Read from saved tables (judgment cache lost in hardware failure).
 
-    gap  
--0.0399  
--0.0661  
+Score difference by generator
+generator   n  claude-haiku-4-5-20251001_judge_mean  gpt-4o-mini_judge_mean     gap
+   claude 121                                0.9254                  0.9653 -0.0399
+      gpt  93                                0.8452                  0.9113 -0.0661
 
-------------------------------------------------------------------------------
 Score difference by serialization format (supplementary breakdown)
-------------------------------------------------------------------------------
-         n  claude-haiku-4-5-20251001_judge_mean  gpt-4o-mini_judge_mean  \
-format                                                                     
-json    86                                0.8942                  0.9424   
-toon    57                                0.8930                  0.9254   
-yaml    71                                0.8841                  0.9542   
+format  n  claude-haiku-4-5-20251001_judge_mean  gpt-4o-mini_judge_mean     gap
+  json 86                                0.8942                  0.9424 -0.0482
+  toon 57                                0.8930                  0.9254 -0.0324
+  yaml 71                                0.8841                  0.9542 -0.0701
 
-           gap  
-format          
-json   -0.0482  
-toon   -0.0324  
-yaml   -0.0701  
-
-gap = claude_mean - gpt_mean: negative means the frozen
-claude judge scores that generator's answers LOWER than gpt does.
 Observed gaps: claude -0.0399, gpt -0.0661
+gap = primary_judge_mean - cross_judge_mean; negative means the frozen
+primary judge scores that generator's answers LOWER than the cross judge.
 
-Both gaps are negative: the frozen claude judge scores lower
-than gpt for BOTH generators, so it reads as stricter overall
+Both gaps are negative: the frozen primary judge scores lower than
+the cross judge for BOTH generators, so it reads as stricter overall
 rather than self-favoring in the simple positive-gap sense.
 
 The self-preference signal is the differential between the two gaps:
   |-0.0661| - |-0.0399| = 0.0262
-The frozen claude judge penalizes gpt-generated answers
-by about 2.6 points more (vs. gpt) than
-it penalizes claude-generated answers.
+The frozen primary judge penalizes gpt-generated answers
+by about 2.6 points more than it penalizes
+claude-generated answers.
 
 Treat any such gap as a caveat on the faithfulness ranking in 5.5/5.6, not
 as evidence to discard the primary-judge results outright. ragas_faithfulness
@@ -1892,9 +1888,9 @@ Narrative summary:
                              msmarco=yaml.
 
 ==============================================================================
-6.x STAGE DISSOCIATION SUMMARY
+6.x FACTOR EFFECT-SIZE SUMMARY
 ==============================================================================
-Central finding table: for each factor (format, chunking), the spread
+Summary table: for each factor (format, chunking), the spread
 of its marginal means across levels (min-max) and its partial eta-sq
 from the 5.6 two-way ANOVA, for every retrieval and fidelity metric.
                                          format          chunking
@@ -1917,8 +1913,9 @@ selfcheck_consistency  range   0.9704 to 0.9706  0.9692 to 0.9712
 Retrieval = recall_at_5, mrr, ndcg_at_5.
 Fidelity  = ragas_faithfulness, ragas_answer_relevance, factscore,
             selfcheck_consistency.
-Read the eta-sq entries per factor: a factor that is large on one metric
-family and negligible on the other is acting at that pipeline stage only.
+The eta-sq entries give the magnitude of each factor's effect on each
+metric under the two-way model. Interpretation is per metric; no claim
+of stage-specific action is made from this table.
 
 ------------------------------------------------------------------------------
 Largest partial eta-sq values, factor x metric
@@ -1930,54 +1927,51 @@ chunking          ndcg_at_5  0.0207
   format ragas_faithfulness  0.0068
 
 ==============================================================================
-LIMITATIONS DATA
+FACTOR EFFECT-SIZE SUMMARY
 ==============================================================================
+Summary table: for each factor (format, chunking), the spread
+of its marginal means across levels (min-max) and its partial eta-sq
+from the 5.6 two-way ANOVA, for every retrieval and fidelity metric.
+                                         format          chunking
+metric                 stat                                      
+recall_at_5            range   0.9367 to 0.9408  0.9153 to 0.9535
+                       eta_sq            0.0008            0.0706
+mrr                    range   0.8690 to 0.8860  0.8691 to 0.8833
+                       eta_sq            0.0036             0.003
+ndcg_at_5              range   0.8562 to 0.8693  0.8455 to 0.8733
+                       eta_sq            0.0039            0.0207
+ragas_faithfulness     range   0.8898 to 0.9005  0.8936 to 0.9008
+                       eta_sq            0.0068            0.0024
+ragas_answer_relevance range   0.8815 to 0.8834  0.8821 to 0.8827
+                       eta_sq            0.0022            0.0003
+factscore              range   0.9053 to 0.9196  0.9087 to 0.9154
+                       eta_sq            0.0137            0.0031
+selfcheck_consistency  range   0.9704 to 0.9706  0.9692 to 0.9712
+                       eta_sq            0.0001            0.0058
+
+Retrieval = recall_at_5, mrr, ndcg_at_5.
+Fidelity  = ragas_faithfulness, ragas_answer_relevance, factscore,
+            selfcheck_consistency.
+The eta-sq entries give the magnitude of each factor's effect on each
+metric under the two-way model. Interpretation is per metric; no claim
+of stage-specific action is made from this table.
 
 ------------------------------------------------------------------------------
-recall_at_5 by corpus (ceiling-effect check)
+Largest partial eta-sq values, factor x metric
 ------------------------------------------------------------------------------
-                mean     std     min     max
-corpus                                      
-bpolicy       0.9789  0.0047  0.9600  0.9800
-financebench  0.9856  0.0165  0.9600  1.0000
-hotpotqa      0.8428  0.0440  0.7700  0.8800
-msmarco       0.9483  0.0309  0.8867  0.9733
+  factor             metric  eta_sq
+chunking        recall_at_5  0.0706
+chunking          ndcg_at_5  0.0207
+  format          factscore  0.0137
+  format ragas_faithfulness  0.0068
+   fig1_token_efficiency
+   fig2_ir_metrics
+   fig3_interaction
+   fig4_pareto
+   fig5_generator
+   fig6_triangulation
+   fig7_composite
+   fig8_chunk_size_depth
 
-Ceiling-effect flag: corpora with mean recall_at_5 >= 0.95 (near-ceiling,
-format/chunking differences hard to detect): ['bpolicy', 'financebench']
-
-------------------------------------------------------------------------------
-ndcg_at_5 by corpus (ceiling-effect check)
-------------------------------------------------------------------------------
-                mean     std     min     max
-corpus                                      
-bpolicy       0.9705  0.0108  0.9452  0.9800
-financebench  0.9139  0.0159  0.8812  0.9408
-hotpotqa      0.8286  0.0348  0.7728  0.8595
-msmarco       0.7420  0.0300  0.6670  0.7752
-
-------------------------------------------------------------------------------
-n_chunks by corpus (index-size flag)
-------------------------------------------------------------------------------
-                mean    std  min   max
-corpus                                
-bpolicy       1746.0  590.0  851  2612
-financebench    94.0   25.0   60   133
-hotpotqa       640.0  184.0  500   899
-msmarco        598.0  141.0  500   795
-
-Smallest mean index: financebench (mean n_chunks=94, min=60). Retrieval
-metrics on this corpus are estimated over a much smaller candidate pool than
-hotpotqa/msmarco and should be read with that in mind.
-
-------------------------------------------------------------------------------
-Cells with n_questions below a usable threshold (threshold = 30)
-------------------------------------------------------------------------------
-None. n_questions == 50 for every one of the 222 rows in results.csv (all
-cell_types); no cell falls below the 30-question usability threshold.
-
-==============================================================================
-DONE
-==============================================================================
-Full log written to thesis_numbers.txt
-84 tables written to thesis_tables/
+Figures written to figures/ as PDF and PNG.
+LaTeX:  \includegraphics[width=\columnwidth]{figures/fig3_interaction.pdf}
