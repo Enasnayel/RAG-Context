@@ -4539,3 +4539,85 @@ core               144
 S_chunk_size        48
 L_late_chunking     24
 R_rerank             6
+
+==============================================================================
+5.3 TOKEN EFFICIENCY - BY STAGE
+==============================================================================
+
+------------------------------------------------------------------------------
+Sign convention of token_saving_vs_baseline_pct (worked example)
+------------------------------------------------------------------------------
+token_saving_vs_baseline_pct = (json_baseline_indexing_tokens -
+format_indexing_tokens) / json_baseline_indexing_tokens * 100
+  -> computed at the INDEXING stage only (it is null for json rows, the
+  baseline itself).
+  -> POSITIVE = format uses FEWER indexing tokens than JSON (a saving).
+  -> NEGATIVE = format uses MORE indexing tokens than JSON (a cost).
+
+  Worked example (bpolicy, fixed, 256):
+    json indexing_tokens = 634,547  (baseline)
+    toon indexing_tokens = 639,432  -> computed -0.77%  (column reports
+    -0.77%)
+    yaml indexing_tokens = 634,038  -> computed +0.08%  (column reports
+    +0.08%)
+    TOON is WORSE than JSON at indexing time; YAML is BETTER.
+
+------------------------------------------------------------------------------
+INDEX-TIME cost: mean indexing_tokens by format
+------------------------------------------------------------------------------
+        mean_indexing_tokens  pct_vs_json_baseline
+format                                            
+json                211407.0                  0.00
+toon                213274.0                 -0.88
+yaml                210554.0                  0.40
+
+  (positive pct = fewer tokens than JSON = a saving; negative = more = a cost)
+
+------------------------------------------------------------------------------
+PROMPT-TIME cost: mean ctx_tokens_per_query by format
+------------------------------------------------------------------------------
+        mean_ctx_tokens_per_query  pct_vs_json_baseline
+format                                                 
+json                       1394.1                  0.00
+toon                       1314.5                  5.71
+yaml                       1356.0                  2.73
+
+  (positive pct = fewer tokens than JSON = a saving; negative = more = a cost)
+
+------------------------------------------------------------------------------
+Index-time vs prompt-time percent difference vs JSON, TOON and YAML
+------------------------------------------------------------------------------
+        index_time_pct_vs_json  prompt_time_pct_vs_json  \
+format                                                    
+toon                     -0.88                     5.71   
+yaml                      0.40                     2.73   
+
+                              signs  
+format                               
+toon    OPPOSE (opposite direction)  
+yaml         AGREE (same direction)  
+
+  Mechanism note: TOON's saving is BATCH-DEPENDENT - its header row is
+  amortized over the k records serialized together, so its per-stage
+  advantage shifts with how many chunks are grouped at that stage.
+  YAML's saving is CONSTANT-RATE - lighter syntax with no header to
+  amortize, so its advantage vs JSON is stable across both stages.
+
+------------------------------------------------------------------------------
+Two-stage breakdown by chunking strategy
+------------------------------------------------------------------------------
+           mean_indexing_tokens  mean_ctx_tokens_per_query
+chunking                                                  
+fixed                  198658.0                     1523.1
+recursive              208571.0                     1357.8
+semantic               228005.0                     1183.8
+
+------------------------------------------------------------------------------
+contextualization_overhead_pct by corpus
+------------------------------------------------------------------------------
+               mean    std    min    max
+corpus                                  
+bpolicy       18.77   6.32   9.33  27.97
+financebench  24.55   6.81  15.74  34.98
+hotpotqa      44.56  15.15  32.96  65.67
+msmarco       70.29  17.29  58.13  94.20
