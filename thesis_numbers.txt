@@ -4326,3 +4326,216 @@ chunking level, per DV
     recursive  F=0.023  p=0.9772  ranking: json > yaml > toon
     semantic   F=0.061  p=0.9406  ranking: json > yaml > toon
     -> CROSSOVER (best format differs by chunking)
+commit
+26f217f    74
+4f24364    70
+2588da3    48
+d515950    24
+27669e6     6
+Name: count, dtype: int64
+==============================================================================
+4.2 CORPUS STATISTICS
+==============================================================================
+
+Documents and questions per corpus
+      corpus  n_docs  n_questions
+     bpolicy      36           50
+financebench      41           50
+    hotpotqa     498           50
+     msmarco     500           50
+
+Chunk counts by corpus, chunking strategy, and chunk size
+      corpus  chunking  chunk_size  n_chunks
+     bpolicy     fixed         256      1682
+     bpolicy     fixed         512       851
+     bpolicy recursive         256      2210
+     bpolicy recursive         512      1253
+     bpolicy  semantic         256      2612
+     bpolicy  semantic         512      1870
+financebench     fixed         256        97
+financebench     fixed         512        60
+financebench recursive         256       133
+financebench recursive         512        78
+financebench  semantic         256       117
+financebench  semantic         512        81
+    hotpotqa     fixed         256       523
+    hotpotqa     fixed         512       500
+    hotpotqa recursive         256       526
+    hotpotqa recursive         512       500
+    hotpotqa  semantic         256       899
+    hotpotqa  semantic         512       893
+     msmarco     fixed         256       500
+     msmarco     fixed         512       500
+     msmarco recursive         256       500
+     msmarco recursive         512       500
+     msmarco  semantic         256       795
+     msmarco  semantic         512       795
+
+Chunk counts, wide form (thesis table 4.2)
+chunking     fixed      recursive       semantic      
+chunk_size     256  512       256   512      256   512
+corpus                                                
+bpolicy       1682  851      2210  1253     2612  1870
+financebench    97   60       133    78      117    81
+hotpotqa       523  500       526   500      899   893
+msmarco        500  500       500   500      795   795
+
+Combined table (mean chunks across the three chunking strategies)
+      corpus  n_docs  n_questions  chunks_at_256  chunks_at_512
+     bpolicy      36           50           2168           1325
+financebench      41           50            116             73
+    hotpotqa     498           50            649            631
+     msmarco     500           50            598            598
+
+Written to thesis_tables\4_2_corpus_statistics.csv
+
+Design coverage: rows per corpus x format x chunking x chunk_size
+chunk_size                     256  512
+corpus       format chunking           
+bpolicy      json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+financebench json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+hotpotqa     json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+msmarco      json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+
+Core rows: 144  (expected 144)
+Total rows in results.csv: 222
+cell_type
+core               144
+S_chunk_size        48
+L_late_chunking     24
+R_rerank             6
+==============================================================================
+4.2 CORPUS STATISTICS
+==============================================================================
+
+Documents and questions per corpus
+      corpus  n_docs  n_questions
+     bpolicy      36           50
+financebench      41           50
+    hotpotqa     498           50
+     msmarco     500           50
+
+Chunk counts by corpus, chunking strategy, and chunk size
+      corpus  chunking  chunk_size  n_chunks
+     bpolicy     fixed         256      1682
+     bpolicy     fixed         512       851
+     bpolicy recursive         256      2210
+     bpolicy recursive         512      1253
+     bpolicy  semantic         256      2612
+     bpolicy  semantic         512      1870
+financebench     fixed         256        97
+financebench     fixed         512        60
+financebench recursive         256       133
+financebench recursive         512        78
+financebench  semantic         256       117
+financebench  semantic         512        81
+    hotpotqa     fixed         256       523
+    hotpotqa     fixed         512       500
+    hotpotqa recursive         256       526
+    hotpotqa recursive         512       500
+    hotpotqa  semantic         256       899
+    hotpotqa  semantic         512       893
+     msmarco     fixed         256       500
+     msmarco     fixed         512       500
+     msmarco recursive         256       500
+     msmarco recursive         512       500
+     msmarco  semantic         256       795
+     msmarco  semantic         512       795
+
+Chunk counts, wide form (thesis table 4.2)
+chunking     fixed      recursive       semantic      
+chunk_size     256  512       256   512      256   512
+corpus                                                
+bpolicy       1682  851      2210  1253     2612  1870
+financebench    97   60       133    78      117    81
+hotpotqa       523  500       526   500      899   893
+msmarco        500  500       500   500      795   795
+
+Combined table (mean chunks across the three chunking strategies)
+      corpus  n_docs  n_questions  chunks_at_256  chunks_at_512
+     bpolicy      36           50           2168           1325
+financebench      41           50            116             73
+    hotpotqa     498           50            649            631
+     msmarco     500           50            598            598
+
+Written to thesis_tables\4_2_corpus_statistics.csv
+
+Design coverage: rows per corpus x format x chunking x chunk_size
+chunk_size                     256  512
+corpus       format chunking           
+bpolicy      json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+financebench json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+hotpotqa     json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+msmarco      json   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             toon   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+             yaml   fixed        2    2
+                    recursive    2    2
+                    semantic     2    2
+
+Core rows: 144  (expected 144)
+Total rows in results.csv: 222
+cell_type
+core               144
+S_chunk_size        48
+L_late_chunking     24
+R_rerank             6

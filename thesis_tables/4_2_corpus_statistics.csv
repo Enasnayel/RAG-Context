@@ -1,0 +1,5 @@
+corpus,n_docs,n_questions,chunks_at_256,chunks_at_512
+bpolicy,36,50,2168,1325
+financebench,41,50,116,73
+hotpotqa,498,50,649,631
+msmarco,500,50,598,598
