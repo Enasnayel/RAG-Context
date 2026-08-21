@@ -1,0 +1,7 @@
+format,generator,latency_s_mean,latency_s_p95
+json,claude,2.086,3.354
+json,gpt,1.547,3.01
+toon,claude,2.099,3.34
+toon,gpt,1.527,3.065
+yaml,claude,2.062,3.206
+yaml,gpt,1.534,2.924
