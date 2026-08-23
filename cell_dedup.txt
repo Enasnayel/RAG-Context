@@ -1,0 +1,333 @@
+# SUPERSEDED - kept for the record, see the appendix markdown cell above.
+# Runs the full statistical analysis for one metric at a time: descriptives,
+# two-way ANOVA with assumption checks, the H2 interaction test, Holm-corrected
+# pairwise format comparisons, a non-parametric fallback, and the
+# efficiency-fidelity trade-off. Fidelity metrics are analysed on the 144-row
+# core subset with generator retained as a factor. Retrieval metrics are
+# deduplicated to 72 rows, because retrieval executes once per cell and both
+# generator rows carry identical values; analysing them at run level would
+# count each retrieval result twice. Consumes results/results.csv. Produces
+# analyse(); writes cellmeans_*.csv, anova_*.csv, pairwise_*.csv, and
+# tradeoff.csv to results/analysis/superseded/ (redirected from
+# results/analysis/ so a full notebook re-run can never recreate
+# anova_faithfulness.csv at its original, since-renamed path). No API calls;
+# runs on METRIC ("faithfulness") by default.
+
+METRIC = "faithfulness"
+ALPHA  = 0.05
+ANADIR = Path("results/analysis/superseded"); ANADIR.mkdir(parents=True, exist_ok=True)
+
+# Retrieval executes once per (corpus, format, chunking, chunk_size) cell and
+# the resulting recall/MRR/nDCG values are written to BOTH generator rows for
+# that cell, so C(generator) is structurally constant for those three metrics
+# (see the exact-zero F/eta the un-deduplicated fit produced on nDCG). Fitting
+# them on the full 144-row core doubles every retrieval observation without
+# adding information, which inflates residual df (59 -> 130) and understates p
+# for every other term. Fidelity metrics (faithfulness, ragas_*, factscore,
+# selfcheck_consistency) genuinely vary by generator, so they keep the 144-row
+# core with C(generator) in the model; retrieval metrics are deduplicated to
+# one row per config (72 rows) and C(generator) is dropped from the model.
+_APPENDIX_RETRIEVAL_METRICS = {"recall_at_5", "mrr", "ndcg_at_5"}
+
+
+def _rule(t):
+    print("\n" + "=" * 74 + f"\n{t}\n" + "=" * 74)
+
+
+def _eta(table):
+    """Partial eta-squared: SS_effect / (SS_effect + SS_residual).
+
+    The standard effect size for factorial designs, and comparable across
+    studies with different numbers of factors.
+    """
+    ss_r = table.loc["Residual", "sum_sq"]
+    return {t: table.loc[t, "sum_sq"] / (table.loc[t, "sum_sq"] + ss_r)
+            for t in table.index if t != "Residual"}
+
+
+def _size(v):
+    return ("large" if v >= 0.14 else "medium" if v >= 0.06
+            else "small" if v >= 0.01 else "negligible")
+
+
+def analyse(metric=METRIC, generator=None):
+    df = pd.read_csv("results/results.csv").dropna(subset=[metric])
+
+    if "run_id" in df.columns:
+        before = len(df)
+        df = df.drop_duplicates(subset=["run_id"], keep="last")
+        if len(df) < before:
+            print(f"note: dropped {before - len(df)} duplicate run_id rows "
+                  f"(earlier pilot rows superseded)")
+
+    # Core factorial only: S_chunk_size spans chunk sizes outside {256, 512}
+    # and L_late_chunking embeds via a different mechanism while still
+    # claiming chunking="fixed" - both silently add spurious levels or
+    # contaminate the "fixed" cells if left in. Same subset and assertion as
+    # the figures' `core` (see the FIGURES cell).
+    df = df[df["cell_type"] == "core"]
+    assert len(df) == 144, f"expected 144 core rows for {metric!r}, got {len(df)}"
+
+    # See the module-level note above the RETRIEVAL_METRICS set: retrieval
+    # metrics drop to one row per (corpus, format, chunking, chunk_size)
+    # config, and C(generator) never enters their model.
+    is_retrieval = metric in RETRIEVAL_METRICS
+    if is_retrieval:
+        df = df.drop_duplicates(
+            subset=["corpus", "format", "chunking", "chunk_size"], keep="first")
+        assert len(df) == 72, \
+            f"expected 72 deduplicated retrieval rows for {metric!r}, got {len(df)}"
+
+    if generator:
+        df = df[df["generator"] == generator]
+    for f in ("format", "chunking", "generator", "corpus"):
+        df[f] = df[f].astype("category")
+    # chunk_size is two levels of a factor, not a continuous predictor.
+    df["chunk_size"] = df["chunk_size"].astype(str).astype("category")
+
+    _rule(f"DESCRIPTIVES - {metric}   (n = {len(df)})")
+    # generator is structurally constant for retrieval metrics post-dedup (its
+    # value per row is just whichever generator happened to run first for that
+    # config), so a "by generator" breakdown would report noise, not a factor.
+    desc_fields = ("corpus", "format", "chunking", "chunk_size") if is_retrieval \
+        else ("corpus", "format", "chunking", "chunk_size", "generator")
+    for f in desc_fields:
+        if df[f].nunique() > 1:
+            print(f"\nBy {f}:")
+            print(df.groupby(f, observed=True)[metric]
+                    .agg(["count", "mean", "std"]).round(4).to_string())
+
+    grid = df.pivot_table(index="format", columns="chunking", values=metric,
+                          aggfunc="mean", observed=True)
+    print("\nformat x chunking cell means (the H2 grid):")
+    print(grid.round(4).to_string())
+    grid.to_csv(ANADIR / f"cellmeans_{metric}.csv")
+
+    varying = {f: df[f].nunique() for f in
+               ("format", "chunking", "chunk_size", "generator", "corpus")}
+    terms = []
+    if varying["format"] > 1:
+        terms.append("C(format)")
+    if varying["chunking"] > 1:
+        terms.append("C(chunking)")
+    has_interaction = varying["format"] > 1 and varying["chunking"] > 1
+    if has_interaction:
+        terms.append("C(format):C(chunking)")
+    if varying["chunk_size"] > 1:
+        terms.append("C(chunk_size)")
+    if varying["generator"] > 1 and not generator and not is_retrieval:
+        terms.append("C(generator)")
+    if varying["corpus"] > 1:
+        terms.append("C(corpus)")
+
+    if not terms:
+        print("\nNothing varies - no model to fit.")
+        return df
+
+    single = [f for f, n in varying.items() if n == 1]
+    if single:
+        print(f"\nnote: {', '.join(single)} has a single level and is excluded "
+              f"from the model.")
+    if is_retrieval:
+        print("\nnote: C(generator) excluded from the model - retrieval "
+              "metrics are structurally identical across generators for a "
+              "given config, so the value surviving the dedup is arbitrary.")
+
+    import patsy
+    n_params = patsy.dmatrix(" + ".join(terms), df, return_type="dataframe").shape[1]
+    resid_df = len(df) - n_params
+    if resid_df < 1:
+        _rule("ANOVA SKIPPED - INSUFFICIENT DATA")
+        print(f"\n  {len(df)} rows against {n_params} model parameters leaves "
+              f"{resid_df} residual df.")
+        print("  This is pilot-scale data. The descriptives above are still")
+        print("  informative; the inferential tests are not. Re-run this cell")
+        print("  once the full factorial has finished.")
+        return df
+
+    model = ols(f"Q('{metric}') ~ " + " + ".join(terms), data=df).fit()
+    tab = sm.stats.anova_lm(model, typ=2)          # Type II: unbalanced-safe
+    tab["partial_eta_sq"] = pd.Series(_eta(tab))
+    tab["effect"] = tab["partial_eta_sq"].apply(lambda v: _size(v) if pd.notna(v) else "")
+    tab["sig"] = tab["PR(>F)"].apply(
+        lambda p: "***" if p < .001 else "**" if p < .01 else "*" if p < ALPHA
+        else "ns" if pd.notna(p) else "")
+
+    _rule("ANOVA" + (" WITH INTERACTION" if has_interaction else ""))
+    print(tab.round(4).to_string())
+    print(f"\nR-sq = {model.rsquared:.4f}   adj. R-sq = {model.rsquared_adj:.4f}")
+    tab.to_csv(ANADIR / f"anova_{metric}.csv")
+
+    _rule("ASSUMPTION CHECKS")
+    w, p_n = stats.shapiro(model.resid)
+    print(f"\nShapiro-Wilk (residuals):  W={w:.4f}  p={p_n:.4f}"
+          f"  -> {'normal' if p_n > ALPHA else 'NON-NORMAL'}")
+    grps = [g[metric].values for _, g in df.groupby(["format", "chunking"], observed=True)
+            if len(g) > 1]
+    ok_v = True
+    if len(grps) >= 2:
+        L, p_l = stats.levene(*grps)
+        ok_v = p_l > ALPHA
+        print(f"Levene (homogeneity):      W={L:.4f}  p={p_l:.4f}"
+              f"  -> {'equal variances' if ok_v else 'UNEQUAL VARIANCES'}")
+    ok = (p_n > ALPHA) and ok_v
+    print("\n" + ("Both hold - the ANOVA above is the primary test."
+                  if ok else
+                  "Violated - report the Friedman test below as primary and the\n"
+                  "ANOVA as a sensitivity check. State this in the thesis; an\n"
+                  "examiner will look for it."))
+
+    if has_interaction:
+        _rule("H2 - FORMAT x CHUNKING INTERACTION")
+        term = "C(format):C(chunking)"
+        p_i, e_i = tab.loc[term, "PR(>F)"], tab.loc[term, "partial_eta_sq"]
+        print(f"\n  F({tab.loc[term,'df']:.0f}, {tab.loc['Residual','df']:.0f}) = "
+              f"{tab.loc[term,'F']:.3f},  p = {p_i:.4f},  partial eta-sq = {e_i:.4f}"
+              f"  ({_size(e_i)})")
+        if p_i < ALPHA:
+            print("\n  [SUPERSEDED - DO NOT CITE] SUPPORTED. The effect of format depends on which chunking")
+            print("  strategy it is paired with. No prior work reports this.")
+        else:
+            print("\n  [SUPERSEDED - DO NOT CITE] NOT SUPPORTED at alpha = .05. Format and chunking act")
+            print("  additively on this metric. That is a publishable negative")
+            print("  result - practitioners can choose the two independently.")
+            print("  Check the other metrics: an interaction may appear on")
+            print("  efficiency even when absent on fidelity.")
+
+        _rule("SIMPLE EFFECTS (crossover detector)")
+        best = {}
+        for ch, g in df.groupby("chunking", observed=True):
+            grps = [s[metric].values for _, s in g.groupby("format", observed=True) if len(s)]
+            if len(grps) < 2 or all(len(x) < 2 for x in grps):
+                continue
+            F, p = stats.f_oneway(*grps)
+            means = g.groupby("format", observed=True)[metric].mean().sort_values(ascending=False)
+            best[ch] = means.index[0]
+            print(f"\n  {ch}:  F={F:.3f}  p={p:.4f} {'(sig)' if p < ALPHA else '(ns)'}")
+            print(f"    ranking: {' > '.join(means.index)}")
+            print("    means:   " + "  ".join(f"{k}={v:.4f}" for k, v in means.items()))
+        if len(set(best.values())) > 1:
+            print(f"\n  [SUPERSEDED - DO NOT CITE] CROSSOVER DETECTED - best format differs across chunking "
+                  f"({', '.join(sorted(set(best.values())))}).")
+            print("  This is the strongest form of the H2 interaction and the")
+            print("  single most defensible finding in the study. Make it a figure.")
+        elif best:
+            print(f"\n  [SUPERSEDED - DO NOT CITE] No crossover: '{list(best.values())[0]}' ranks first everywhere.")
+            print("  Any interaction is ordinal - differences in magnitude, not rank.")
+            print("  Say so precisely; 'interaction' unqualified overstates it.")
+
+    _rule("H1a - PAIRWISE FORMAT COMPARISONS (Holm-corrected)")
+    # generator is dropped from the pairing key for retrieval metrics: after
+    # the dedup above there is exactly one row per (corpus, chunking,
+    # chunk_size, format), and its generator value is arbitrary, so keying on
+    # it would spuriously fail to match rows that describe the same config.
+    key = ["corpus", "chunking", "chunk_size"] if is_retrieval \
+        else ["corpus", "chunking", "chunk_size", "generator"]
+    fmts = sorted(df["format"].unique())
+    tests = []
+    for i, a in enumerate(fmts):
+        for b in fmts[i + 1:]:
+            da = df[df["format"] == a].set_index(key)[metric]
+            db = df[df["format"] == b].set_index(key)[metric]
+            common = da.index.intersection(db.index)
+            # Paired: every format sees the same questions under the same config.
+            # Treating them as independent throws away power.
+            if len(common) >= 3:
+                x, y = da.loc[common].values, db.loc[common].values
+                try:
+                    st, p = stats.wilcoxon(x, y); t = "Wilcoxon"
+                except ValueError:
+                    st, p = stats.ttest_rel(x, y)[:2]; t = "paired t"
+                d = float(np.mean(x - y))
+            elif len(da) >= 2 and len(db) >= 2:
+                st, p = stats.mannwhitneyu(da.values, db.values, alternative="two-sided")
+                t, d = "Mann-Whitney", float(da.mean() - db.mean())
+            else:
+                continue
+            tests.append(dict(a=a, b=b, n=len(common), diff=d, p_raw=p, test=t))
+
+    if not tests:
+        print("\n  Not enough matched observations for pairwise tests.")
+        return df
+
+    tests.sort(key=lambda t: t["p_raw"])
+    m, prev = len(tests), 0.0
+    for i, t in enumerate(tests):
+        prev = t["p_holm"] = max(prev, min(1.0, (m - i) * t["p_raw"]))
+        t["sig"] = ("***" if prev < .001 else "**" if prev < .01
+                    else "*" if prev < ALPHA else "ns")
+
+    print(f"\n  {'comparison':<17}{'n':>4}{'mean diff':>12}{'p raw':>10}{'p Holm':>10}     test")
+    print("  " + "-" * 68)
+    for t in tests:
+        print(f"  {t['a']} vs {t['b']:<9}{t['n']:>4}{t['diff']:>+12.4f}"
+              f"{t['p_raw']:>10.4f}{t['p_holm']:>10.4f} {t['sig']:<4} {t['test']}")
+    print("\n  Positive mean diff favors the first format named.")
+    pd.DataFrame(tests).to_csv(ANADIR / f"pairwise_{metric}.csv", index=False)
+
+    jt = next((t for t in tests if {t["a"], t["b"]} == {"json", "toon"}), None)
+    if jt and metric == "faithfulness":
+        d = jt["diff"] if jt["a"] == "json" else -jt["diff"]
+        print()
+        if jt["p_holm"] < ALPHA and d > 0:
+            print("  [SUPERSEDED - DO NOT CITE] H1a SUPPORTED: JSON is significantly more faithful than TOON.")
+        elif jt["p_holm"] < ALPHA:
+            print("  [SUPERSEDED - DO NOT CITE] H1a CONTRADICTED: TOON is significantly MORE faithful than JSON.")
+            print("  Do not bury this. A pre-registered hypothesis failing in the")
+            print("  opposite direction is a stronger contribution than confirming")
+            print("  it, provided the judge-bias check rules out an artifact.")
+        else:
+            print("  [SUPERSEDED - DO NOT CITE] H1a NOT SUPPORTED: no significant JSON/TOON difference. Combined")
+            print("  with any token saving, that is the practitioner's headline -")
+            print("  efficiency at no measurable fidelity cost.")
+
+    if not ok:
+        _rule("NON-PARAMETRIC FALLBACK (Friedman)")
+        wide = df.pivot_table(index=key, columns="format", values=metric,
+                              observed=True).dropna()
+        if len(wide) >= 3 and wide.shape[1] >= 3:
+            st, p = stats.friedmanchisquare(*[wide[c].values for c in wide.columns])
+            print(f"\n  chi-sq = {st:.4f}  df = {wide.shape[1]-1}  p = {p:.4f}"
+                  f"   ({len(wide)} matched blocks)")
+            print("\n  Mean ranks (1 = best):")
+            for f, r in wide.rank(axis=1, ascending=False).mean().sort_values().items():
+                print(f"    {f:<8}{r:.3f}")
+            print(f"\n  -> Formats {'DIFFER' if p < ALPHA else 'do not differ'}.")
+        else:
+            print(f"\n  Need >= 3 complete blocks and 3 formats; have {len(wide)}.")
+
+    if metric == "faithfulness" and "ctx_tokens_per_query" in df.columns:
+        _rule("EFFICIENCY-FIDELITY TRADE-OFF")
+        t = (df.groupby(["format", "chunking"], observed=True)
+               .agg(faith=(metric, "mean"), tok=("ctx_tokens_per_query", "mean"))
+               .reset_index().dropna().sort_values("faith", ascending=False))
+        print(f"\n  {'format':<8}{'chunking':<12}{'faithfulness':>14}{'tokens/query':>14}")
+        print("  " + "-" * 48)
+        for _, r in t.iterrows():
+            print(f"  {r['format']:<8}{r['chunking']:<12}{r['faith']:>14.4f}{r['tok']:>14.1f}")
+        par = [r for _, r in t.iterrows()
+               if not ((t["faith"] > r["faith"]) & (t["tok"] < r["tok"])).any()]
+        print("\n  Pareto-optimal (nothing beats them on both axes at once):")
+        for r in par:
+            print(f"    {r['format']} x {r['chunking']}   "
+                  f"faith={r['faith']:.4f}  tokens={r['tok']:.0f}")
+        print("\n  These are the only configurations worth recommending.")
+        t.to_csv(ANADIR / "tradeoff.csv", index=False)
+
+    print(f"\n\nTables written to {ANADIR}/")
+    return df
+
+
+_SUPERSEDED_BANNER = (
+    "!" * 78 + "\n"
+    "SUPERSEDED - DO NOT CITE\n"
+    "This cell reproduces the superseded six-term-model analysis. The\n"
+    "pre-registered result is in section 5.6: format shows NO significant\n"
+    "effect on ragas_faithfulness (F=0.4605, p=0.6319). These numbers are\n"
+    "retained to document the correction and must not be cited as findings.\n"
+    + "!" * 78
+)
+
+print(_SUPERSEDED_BANNER)
+_df = analyse(METRIC)
+print(_SUPERSEDED_BANNER)

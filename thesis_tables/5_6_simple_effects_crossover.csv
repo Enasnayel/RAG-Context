@@ -6,4 +6,4 @@ selfcheck_consistency,True,"{'fixed': 'yaml', 'recursive': 'toon', 'semantic': '
 recall_at_5,False,"{'fixed': 'toon', 'recursive': 'toon', 'semantic': 'toon'}"
 mrr,False,"{'fixed': 'yaml', 'recursive': 'yaml', 'semantic': 'yaml'}"
 ndcg_at_5,False,"{'fixed': 'yaml', 'recursive': 'yaml', 'semantic': 'yaml'}"
-ctx_tokens_per_query,True,"{'fixed': 'yaml', 'recursive': 'json', 'semantic': 'json'}"
+ctx_tokens_per_query,False,"{'fixed': 'toon', 'recursive': 'toon', 'semantic': 'toon'}"
