@@ -1,0 +1,5 @@
+corpus,calls,cost_usd,input_tokens,cache_read
+bpolicy,38521,93.2,48092002,330739693
+financebench,24818,40.57,33858895,5010560
+hotpotqa,38124,30.34,25530674,846336
+msmarco,34934,29.28,19607868,0
