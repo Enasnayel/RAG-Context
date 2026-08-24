@@ -1,4 +1,4 @@
-format,recall_at_5_reranked,mrr_reranked,ndcg_at_5_reranked,ctx_tokens_per_query_reranked,recall_at_5_base,mrr_base,ndcg_at_5_base,ctx_tokens_per_query_base,recall_at_5_delta,mrr_delta,ndcg_at_5_delta
-json,0.97,0.9633,0.9326,917.3,0.88,0.9733,0.8595,927.9,0.09,-0.01,0.0731
-toon,0.97,0.9633,0.9326,872.2,0.88,0.9767,0.8541,871.9,0.09,-0.0134,0.0785
-yaml,0.97,0.9633,0.9326,932.4,0.87,0.9733,0.8491,936.8,0.1,-0.01,0.0835
+format,recall_at_5_base,recall_at_5_reranked,recall_at_5_delta,mrr_base,mrr_reranked,mrr_delta,ndcg_at_5_base,ndcg_at_5_reranked,ndcg_at_5_delta,ctx_tokens_per_query_base,ctx_tokens_per_query_reranked,ctx_tokens_per_query_delta
+json,0.88,0.97,0.09,0.9733,0.9633,-0.01,0.8595,0.9326,0.0731,927.9,917.3,-10.6
+toon,0.88,0.97,0.09,0.9767,0.9633,-0.0134,0.8541,0.9326,0.0785,871.9,872.2,0.3
+yaml,0.87,0.97,0.1,0.9733,0.9633,-0.01,0.8491,0.9326,0.0835,936.8,932.4,-4.4
