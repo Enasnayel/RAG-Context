@@ -47,3 +47,11 @@ format
 json                     0.8481                       0.8974  0.0493
 toon                     0.8344                       0.8886  0.0542
 yaml                     0.8294                       0.9010  0.0716
+                           term         F            p  partial_eta_sq
+                      C(format)  0.849524 4.304558e-01        0.015488
+                    C(chunking)  0.300408 7.411324e-01        0.005532
+                      C(corpus) 44.844571 6.668119e-19        0.554701
+          C(format):C(chunking)  0.084395 9.870763e-01        0.003116
+            C(format):C(corpus)  0.760473 6.025382e-01        0.040536
+          C(chunking):C(corpus)  0.193508 9.780493e-01        0.010636
+C(format):C(chunking):C(corpus)  0.064448 9.999958e-01        0.007110
